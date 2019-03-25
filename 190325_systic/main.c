@@ -1,9 +1,9 @@
 #include "stm32f4xx.h"
 
-volatile unit32_t ticks = 0;
-unit32_t tmp;
+volatile uint32_t ticks = 0;
+uint32_t tmp;
 
-void myDelay(unit32_t loop) {
+void myDelay(uint32_t loop) {
   while (loop > 0) {
     loop--;
   }
@@ -11,14 +11,14 @@ void myDelay(unit32_t loop) {
 
 void SysTick_Handler(void) {
   ticks++;
-  tmp = Systick->CTRL;
+  tmp = SysTick->CTRL;
   myDelay(100);
 }
 
 int main() {
   tmp = SystemCoreClock/2;
 
-  Systick->LOAD = tmp - 1;
+  SysTick->LOAD = tmp - 1;
   SysTick->CTRL = (0x01 | (0x01 << 1) | (0x01 << 2));
 
   while (1) {
